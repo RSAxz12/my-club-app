@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 interface Review {
   id: string;
@@ -25,6 +25,8 @@ export default function MyReviewsPage() {
     async function fetchMyReviews() {
       try {
         setLoading(true);
+        const supabase = createClient(); // تم النقل هنا لتجنب خطأ البناء
+        
         const { data: { user }, error: authError } = await supabase.auth.getUser();
 
         if (authError || !user) {
@@ -58,6 +60,7 @@ export default function MyReviewsPage() {
     const confirmDelete = confirm("هل أنت متأكد من حذف هذا التقييم؟");
     if (!confirmDelete) return;
 
+    const supabase = createClient(); // تم النقل هنا أيضاً
     const { error } = await supabase.from("reviews").delete().eq("id", id);
     if (!error) {
       setReviews((prev) => prev.filter((r) => r.id !== id));

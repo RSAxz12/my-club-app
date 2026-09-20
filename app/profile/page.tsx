@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 interface UserProfile {
   email?: string;
@@ -22,6 +22,7 @@ export default function ProfilePage() {
   useEffect(() => {
     async function loadUser() {
       try {
+        const supabase = createClient(); // تم النقل هنا لتجنب خطأ البناء
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
@@ -45,6 +46,7 @@ export default function ProfilePage() {
   }, [router]);
 
   const handleLogout = async () => {
+    const supabase = createClient(); // تم النقل هنا أيضاً
     await supabase.auth.signOut();
     router.push("/auth/login");
   };

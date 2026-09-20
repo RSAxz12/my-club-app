@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 interface FavoriteItem {
   id: string;
@@ -25,6 +25,8 @@ export default function FavoritesPage() {
     async function fetchFavorites() {
       try {
         setLoading(true);
+        const supabase = createClient(); // تم نقله إلى داخل الدالة لتجنب أخطاء البناء
+        
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
@@ -55,6 +57,7 @@ export default function FavoritesPage() {
 
   // دالة إزالة عنصر من المفضلة
   const handleRemoveFavorite = async (id: string) => {
+    const supabase = createClient(); // تم نقله هنا أيضاً
     const { error } = await supabase.from("favorites").delete().eq("id", id);
     if (!error) {
       setFavorites((prev) => prev.filter((item) => item.id !== id));
