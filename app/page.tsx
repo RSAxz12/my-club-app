@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 interface Club {
   id: string;
@@ -37,7 +37,6 @@ const getClubImage = (name: string, originalUrl: string) => {
   } else if (lowName.includes("وقت") || lowName.includes("رياضي")) {
     return "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=600&auto=format&fit=crop";
   }
-  // صورة افتراضية عامة للنوادي الأخرى
   return "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=600&auto=format&fit=crop";
 };
 
@@ -52,6 +51,8 @@ export default function HomePage() {
     async function fetchFeaturedData() {
       try {
         setLoading(true);
+        const supabase = createClient(); // تم النقل هنا لتجنب خطأ البناء
+
         const { data: clubs } = await supabase
           .from("clubs")
           .select("*")
@@ -157,13 +158,13 @@ export default function HomePage() {
                       alt={club.name} 
                       className="w-full h-full object-cover" 
                     />
-                    <span className="absolute top-3 right-3 bg-[#0F2A1E]/80 backdrop-blur text-[#D6AD55] text-[10px] font-bold px-3 py-1 rounded-full border border-[#2A5642]">
+                    <span className="absolute top-3 right-3 bg-[#0F2A1E]/85 backdrop-blur text-[#D6AD55] text-[10px] font-bold px-3 py-1 rounded-full border border-[#2A5642]">
                       {club.category}
                     </span>
                   </div>
                   <div className="p-5">
                     <h3 className="text-lg font-bold text-[#F4EFE2] mb-1">{club.name}</h3>
-                    <p className="text-xs text-[#C9C4B4] mb-3"> {club.location}</p>
+                    <p className="text-xs text-[#C9C4B4] mb-3">{club.location}</p>
                     <div className="flex items-center gap-1 text-[#D6AD55] text-xs font-bold">
                       <span>★</span> {club.rating || "4.5"}
                     </div>
