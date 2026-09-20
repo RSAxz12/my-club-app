@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = 'force-dynamic';
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
