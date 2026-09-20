@@ -6,7 +6,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 export const dynamic = 'force-dynamic';
 
-const supabase = createClient();
 
 interface Club {
   id: string;
