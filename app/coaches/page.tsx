@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 interface Coach {
   id: string;
@@ -119,6 +119,7 @@ export default function CoachesPage() {
     async function fetchCoaches() {
       try {
         setLoading(true);
+        const supabase = createClient();
         const { data, error } = await supabase.from("coaches").select("*");
 
         if (error || !data || data.length === 0) {
@@ -153,7 +154,6 @@ export default function CoachesPage() {
     setNewRating(5);
   };
 
-  // فلترة المدربين
   const filteredCoaches = coaches.filter((coach) => {
     const query = searchQuery.trim().toLowerCase();
     const matchesSearch =
@@ -194,7 +194,6 @@ export default function CoachesPage() {
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-10">
-        {/* الترويسة والعنوان */}
         <div className="text-center mb-8">
           <span className="bg-[#16382A] text-[#D6AD55] text-xs font-semibold px-4 py-1.5 rounded-full border border-[#2A5642] mb-3 inline-block">
             خميس مشيط
@@ -207,7 +206,6 @@ export default function CoachesPage() {
           </p>
         </div>
 
-        {/* حقل البحث */}
         <div className="w-full max-w-2xl mx-auto relative mb-6">
           <input
             type="text"
@@ -231,7 +229,6 @@ export default function CoachesPage() {
           </svg>
         </div>
 
-        {/* أزرار التصنيفات */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           {CATEGORIES.map((category) => {
             const isActive = selectedCategory === category;
@@ -348,7 +345,6 @@ export default function CoachesPage() {
           </div>
         )}
 
-        {/* نافذة التواصل والحجز */}
         {selectedCoach && (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#16382A] border border-[#2A5642] rounded-3xl max-w-md w-full p-6 text-right relative shadow-2xl">
@@ -400,7 +396,6 @@ export default function CoachesPage() {
           </div>
         )}
 
-        {/* نافذة التقييم */}
         {reviewCoach && (
           <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#16382A] border border-[#2A5642] rounded-3xl max-w-md w-full p-6 text-right relative shadow-2xl">
