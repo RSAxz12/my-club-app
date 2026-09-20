@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
+export const dynamic = 'force-dynamic';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -23,7 +23,9 @@ export default function SignUpPage() {
     setErrorMessage("");
 
     try {
-      // 1. إنشاء الحساب في Supabase Auth
+      // إنشاء العميل هنا حصرياً داخل الدالة
+      const supabase = createClient();
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
