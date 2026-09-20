@@ -6,8 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-const supabase = createClient();
-
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -19,6 +17,9 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
+
+    // تم نقل استدعاء Supabase إلى هنا ليتم وقت التنفيذ الفعلي فقط
+    const supabase = createClient();
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
