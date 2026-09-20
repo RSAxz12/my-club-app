@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = 'force-dynamic';
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
@@ -18,7 +18,7 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMessage("");
 
-    // تم نقل استدعاء Supabase إلى هنا ليتم وقت التنفيذ الفعلي فقط
+    // يتم إنشاء العميل هنا داخل الحدث فقط لضمان قراءة المفاتيح وقت التنفيذ الفعلي
     const supabase = createClient();
 
     try {
