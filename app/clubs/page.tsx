@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-export const dynamic = 'force-dynamic';
 
+export const dynamic = 'force-dynamic';
 
 interface Club {
   id: string;
@@ -27,6 +27,9 @@ export default function ClubsPage() {
     async function fetchClubs() {
       try {
         setLoading(true);
+        // التعيين هنا حصرياً داخل الدالة لضمان عدم حدوث خطأ أثناء الـ Prerendering
+        const supabase = createClient();
+        
         const { data, error } = await supabase
           .from("clubs")
           .select("*")
@@ -85,7 +88,7 @@ export default function ClubsPage() {
                       className="w-full h-full object-cover hover:scale-105 transition duration-500"
                     />
                     {club.category && (
-                      <span className="absolute top-3 right-3 bg-[#0F2A1E]/80 backdrop-blur-md text-[#D6AD55] text-xs font-bold px-3 py-1 rounded-full border border-[#D6AD55]/30">
+                      <span className="absolute top-3 right-3 bg-[#0F2A1E]/85 backdrop-blur-md text-[#D6AD55] text-xs font-bold px-3 py-1 rounded-full border border-[#D6AD55]/30">
                         {club.category}
                       </span>
                     )}
