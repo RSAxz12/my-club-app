@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+export const dynamic = 'force-dynamic';
 
 const supabase = createClient();
 
