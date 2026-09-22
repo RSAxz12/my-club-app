@@ -27,13 +27,12 @@ export default function ClubsPage() {
     async function fetchClubs() {
       try {
         setLoading(true);
-        // التعيين هنا حصرياً داخل الدالة لضمان عدم حدوث خطأ أثناء الـ Prerendering
         const supabase = createClient();
         
+        // تم إزالة .order لمنع أي خطأ في حال عدم وجود عمود created_at
         const { data, error } = await supabase
           .from("clubs")
-          .select("*")
-          .order("created_at", { ascending: false });
+          .select("*");
 
         if (error) {
           console.error("خطأ في جلب النوادي:", error.message);
