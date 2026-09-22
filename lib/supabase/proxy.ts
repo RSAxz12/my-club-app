@@ -1,19 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { hasEnvVars } from "../utils";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });
 
-  if (!hasEnvVars) {
-    return supabaseResponse;
-  }
-
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    "https://acgcejnucmaqgmpzqbv.supabase.co",
+    "sb_publishable_7ZIA0Wa2HA3sy_vrsQKpcQ_EQl8-usj",
     {
       cookies: {
         getAll() {
@@ -37,7 +32,6 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  // تعريف المسارات العامة مرة واحدة فقط
   const publicPaths = [
     "/",
     "/auth",
